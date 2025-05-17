@@ -1,74 +1,74 @@
-"use client";
+"use client"
 
-import { useState, useRef } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { FiMail, FiLock, FiUser } from "react-icons/fi";
+import { useState, useRef } from "react"
+import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
+import { FiMail, FiLock, FiUser } from "react-icons/fi"
 
 export default function RegisterForm() {
-  const [showPass, setShowPass] = useState(false);
+  const [showPass, setShowPass] = useState(false)
   const [errors, setErrors] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
-  });
-  const [isLoading, setIsLoading] = useState(false);
-  const [apiError, setApiError] = useState("");
+  })
+  const [isLoading, setIsLoading] = useState(false)
+  const [apiError, setApiError] = useState("")
 
-  const nameRef = useRef(null);
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
-  const confirmPasswordRef = useRef(null);
-  const router = useRouter();
+  const nameRef = useRef(null)
+  const emailRef = useRef(null)
+  const passwordRef = useRef(null)
+  const confirmPasswordRef = useRef(null)
+  const router = useRouter()
 
   const validate = () => {
-    let isValid = true;
+    let isValid = true
     const newErrors = {
       name: "",
       email: "",
       password: "",
       confirmPassword: "",
-    };
+    }
 
     if (!nameRef.current?.value.trim()) {
-      newErrors.name = "Name is required";
-      isValid = false;
+      newErrors.name = "Name is required"
+      isValid = false
     }
 
     if (!emailRef.current?.value.trim()) {
-      newErrors.email = "Email is required";
-      isValid = false;
+      newErrors.email = "Email is required"
+      isValid = false
     } else if (!/\S+@\S+\.\S+/.test(emailRef.current.value)) {
-      newErrors.email = "Email is invalid";
-      isValid = false;
+      newErrors.email = "Email is invalid"
+      isValid = false
     }
 
     if (!passwordRef.current?.value.trim()) {
-      newErrors.password = "Password is required";
-      isValid = false;
+      newErrors.password = "Password is required"
+      isValid = false
     } else if (passwordRef.current.value.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
-      isValid = false;
+      newErrors.password = "Password must be at least 6 characters"
+      isValid = false
     }
 
     if (passwordRef.current?.value !== confirmPasswordRef.current?.value) {
-      newErrors.confirmPassword = "Passwords do not match";
-      isValid = false;
+      newErrors.confirmPassword = "Passwords do not match"
+      isValid = false
     }
 
-    setErrors(newErrors);
-    return isValid;
-  };
+    setErrors(newErrors)
+    return isValid
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setApiError("");
+    e.preventDefault()
+    setApiError("")
 
-    if (!validate()) return;
+    if (!validate()) return
 
-    setIsLoading(true);
+    setIsLoading(true)
     try {
       // Register the user
       const response = await fetch("/api/register", {
@@ -81,12 +81,12 @@ export default function RegisterForm() {
           email: emailRef.current?.value,
           password: passwordRef.current?.value,
         }),
-      });
+      })
 
-      const data = await response.json();
+      const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.message || "Registration failed");
+        throw new Error(data.message || "Registration failed")
       }
 
       // Sign in the user after successful registration
@@ -94,28 +94,24 @@ export default function RegisterForm() {
         email: emailRef.current?.value,
         password: passwordRef.current?.value,
         redirect: false,
-      });
+      })
 
       if (result?.error) {
-        setApiError(result.error);
+        setApiError(result.error)
       } else {
-        router.push("/dashboard");
+        router.push("/dashboard")
       }
     } catch (error) {
-      console.error("Registration error:", error);
-      setApiError(error.message || "Registration failed. Please try again.");
+      console.error("Registration error:", error)
+      setApiError(error.message || "Registration failed. Please try again.")
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <div className="w-full max-w-md p-7 bg-white shadow-xl rounded-2xl border border-[#E5E7EB]">
-      {apiError && (
-        <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg text-sm">
-          {apiError}
-        </div>
-      )}
+      {apiError && <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg text-sm">{apiError}</div>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -127,15 +123,11 @@ export default function RegisterForm() {
               id="name"
               placeholder="Your full name"
               className={`pl-10 pr-4 py-2 w-full rounded-lg border text-sm text-[#111827] bg-white ${
-                errors.name
-                  ? "border-red-400 focus:ring-red-200"
-                  : "border-gray-300 focus:ring-[#6EE7B7]"
+                errors.name ? "border-red-400 focus:ring-red-200" : "border-gray-300 focus:ring-[#6EE7B7]"
               } focus:outline-none focus:ring-2`}
             />
           </div>
-          {errors.name && (
-            <p className="mt-1 text-xs text-red-500">{errors.name}</p>
-          )}
+          {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
         </div>
 
         <div>
@@ -147,15 +139,11 @@ export default function RegisterForm() {
               id="email"
               placeholder="email@example.com"
               className={`pl-10 pr-4 py-2 w-full rounded-lg border text-sm text-[#111827] bg-white ${
-                errors.email
-                  ? "border-red-400 focus:ring-red-200"
-                  : "border-gray-300 focus:ring-[#6EE7B7]"
+                errors.email ? "border-red-400 focus:ring-red-200" : "border-gray-300 focus:ring-[#6EE7B7]"
               } focus:outline-none focus:ring-2`}
             />
           </div>
-          {errors.email && (
-            <p className="mt-1 text-xs text-red-500">{errors.email}</p>
-          )}
+          {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
         </div>
 
         <div>
@@ -167,9 +155,7 @@ export default function RegisterForm() {
               id="password"
               placeholder="••••••••"
               className={`pl-10 pr-4 py-2 w-full rounded-lg border text-sm text-[#111827] bg-white ${
-                errors.password
-                  ? "border-red-400 focus:ring-red-200"
-                  : "border-gray-300 focus:ring-[#6EE7B7]"
+                errors.password ? "border-red-400 focus:ring-red-200" : "border-gray-300 focus:ring-[#6EE7B7]"
               } focus:outline-none focus:ring-2`}
             />
             <button
@@ -180,9 +166,7 @@ export default function RegisterForm() {
               {showPass ? "Hide" : "Show"}
             </button>
           </div>
-          {errors.password && (
-            <p className="mt-1 text-xs text-red-500">{errors.password}</p>
-          )}
+          {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password}</p>}
         </div>
 
         <div>
@@ -194,17 +178,11 @@ export default function RegisterForm() {
               id="confirmPassword"
               placeholder="Confirm password"
               className={`pl-10 pr-4 py-2 w-full rounded-lg border text-sm text-[#111827] bg-white ${
-                errors.confirmPassword
-                  ? "border-red-400 focus:ring-red-200"
-                  : "border-gray-300 focus:ring-[#6EE7B7]"
+                errors.confirmPassword ? "border-red-400 focus:ring-red-200" : "border-gray-300 focus:ring-[#6EE7B7]"
               } focus:outline-none focus:ring-2`}
             />
           </div>
-          {errors.confirmPassword && (
-            <p className="mt-1 text-xs text-red-500">
-              {errors.confirmPassword}
-            </p>
-          )}
+          {errors.confirmPassword && <p className="mt-1 text-xs text-red-500">{errors.confirmPassword}</p>}
         </div>
 
         <button
@@ -219,14 +197,11 @@ export default function RegisterForm() {
       <div className="mt-6 text-center">
         <p className="text-sm text-gray-600">
           Already have an account?{" "}
-          <Link
-            href="/login"
-            className="text-[#14B8A6] hover:text-teal-700 font-medium"
-          >
+          <Link href="/login" className="text-[#14B8A6] hover:text-teal-700 font-medium">
             Sign in
           </Link>
         </p>
       </div>
     </div>
-  );
+  )
 }
