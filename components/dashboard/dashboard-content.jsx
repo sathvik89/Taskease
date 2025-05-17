@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-// import { useToast } from "../ui/use-toast"; //look up here important !!!
+import TaskModal from "@/components/tasks/task-modal";
 import { fetchTaskStats } from "@/lib/api-client";
 
 export default function DashboardContent({ initialStats }) {
@@ -74,7 +74,7 @@ export default function DashboardContent({ initialStats }) {
           onClick={() => setIsModalOpen(true)}
           className="mt-4 md:mt-0 flex items-center gap-2 bg-[#14B8A6] hover:bg-teal-600 text-white px-4 py-2 rounded-lg shadow-md transition-colors duration-200"
         >
-          <span>+</span>
+          <span>➕</span>
           <span>New Task</span>
         </button>
       </div>
@@ -258,11 +258,11 @@ export default function DashboardContent({ initialStats }) {
       </div>
 
       {/* Task Modal */}
-      {/* <TaskModal
+      <TaskModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSuccess={refreshStats}
-      /> */}
+      />
     </div>
   );
 }

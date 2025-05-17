@@ -1,12 +1,9 @@
-// components/dashboard/profile-menu.jsx
 "use client";
 
 import { useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { FaUser, FaUserLock } from "react-icons/fa";
-import { TbLogout2 } from "react-icons/tb";
 
 export default function ProfileMenu() {
   const { data: session } = useSession();
@@ -46,7 +43,7 @@ export default function ProfileMenu() {
               className="flex items-center w-full gap-2 px-3 py-2 text-sm text-[#111827] hover:bg-[#DCFCE7] rounded-md"
               onClick={() => setIsOpen(false)}
             >
-              <FaUser className="text-[#14B8A6]" />
+              <span className="text-[#14B8A6]">👤</span>
               My Profile
             </Link>
 
@@ -55,7 +52,7 @@ export default function ProfileMenu() {
               className="flex items-center w-full gap-2 px-3 py-2 text-sm text-[#111827] hover:bg-[#DCFCE7] rounded-md"
               onClick={() => setIsOpen(false)}
             >
-              <FaUserLock className="text-[#14B8A6]" />
+              <span className="text-[#14B8A6]">🔒</span>
               Change Password
             </Link>
 
@@ -63,7 +60,7 @@ export default function ProfileMenu() {
               onClick={logoutHandler}
               className="flex items-center w-full gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md"
             >
-              <TbLogout2 />
+              <span>🚪</span>
               Sign Out
             </button>
           </div>

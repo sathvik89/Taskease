@@ -1,4 +1,3 @@
-// components/dashboard/mobile-sidebar.jsx
 "use client";
 
 import { useEffect } from "react";

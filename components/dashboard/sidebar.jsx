@@ -56,7 +56,6 @@ export default function Sidebar() {
         </div>
         <h1 className="text-2xl font-bold text-[#111827]">TaskEase</h1>
       </div>
-
       <div className="flex-1 flex flex-col gap-4 mt-6">
         {sidebarLinks.map((item) => {
           const isActive = pathname.startsWith(item.link);
@@ -74,7 +73,6 @@ export default function Sidebar() {
           );
         })}
       </div>
-
       <div className="pt-4">
         <button className="w-full flex gap-2 p-2 items-center text-lg text-[#111827] hover:text-[#14B8A6]">
           <span>⚙️</span>
